@@ -1,0 +1,183 @@
+---
+title: "The Exploration of Spatial Transcriptomics"
+author: "Ruth Ma"
+date: "`r format(Sys.Date(), '%Y-%m-%d')`"
+output:
+  html_document:
+    highlight: haddock
+    toc: true
+---
+```{r, set-chunk-opts, echo = FALSE}
+library(knitr)
+opts_chunk$set(
+  echo = FALSE, warning = FALSE, message = FALSE
+)
+```
+
+```{r,include=FALSE}
+Sys.setenv(LANG = "en_US")
+```
+
+__About the dataset__
+
+This is a spatial transcriptomics dataset.  
+The dataset comprises spatial transcriptomics information within a mouse brain and is stored as a Seurat object. It includes counts information, representing RNA counts or gene expression in each spot, as well as coordinate information, indicating the physical coordinates of each spot.
+Exploring the dataset enables us to grasp the spatial intricacies within the mouse brain, identifying key genes prevalent in each distinct brain region, and subsequently establishing connections between gene expression patterns and brain functionality.
+
+*Note*:
+
+Please be patient while working with the dataset; the data is high-dimensional and processing may be slow.
+
+You have several ways to read in the dataset.  
+1. Using the 10X function to read in the dataset (recommend).  
+2. Download the dataset from [https://www.10xgenomics.com/datasets/mouse-brain-serial-section-2-sagittal-posterior-1-standard-1-0-0](10X website) and read in the local dataset. At least "Feature/barcode matrix HDF5 (filtered)" and "Spatial imaging data" should be downloaded.
+
+```{r, install-packages}
+# Install packages for gene analysis
+if (!requireNamespace("Seurat", quietly = TRUE)) {
+  install.packages("Seurat")
+}
+if (!requireNamespace("SeuratData", quietly = TRUE)) {
+  install.packages("SeuratData")
+}
+if (!requireNamespace("ggplot2", quietly = TRUE)) {
+  install.packages("ggplot2")
+}
+if (!requireNamespace("patchwork", quietly = TRUE)) {
+  install.packages("patchwork")
+}
+if (!requireNamespace("dplyr", quietly = TRUE)) {
+  install.packages("dplyr")
+}
+# Install 'here' package
+if (!requireNamespace("here", quietly = TRUE)) {
+  install.packages("here")
+}
+```
+
+```{r, import-package}
+# Import packages for gene analysis
+library(Seurat)
+library(SeuratData)
+library(ggplot2)
+library(patchwork)
+library(dplyr)
+# Import 'here' package
+library(here)
+```
+Get the current working directory
+```{r}
+here::i_am("code/main.Rmd")
+```
+
+# Read in the dataset
+## Method 1: Read in the dataset online
+```{r, install-data}
+if (!('stxBrain.SeuratData' %in% rownames(AvailableData()))) {
+  InstallData("stxBrain")
+}
+```
+
+```{r, read-data-from-web}
+rna_data <- LoadData("stxBrain", type = "posterior2")
+```
+
+## Method 2: Read in local dataset
+```{r, read-data-from-local, eval=FALSE}
+data_dir <- here::here('data')
+file_name = 'V1_Mouse_Brain_Sagittal_Posterior_Section_2_filtered_feature_bc_matrix.h5'
+rna_data <- Load10X_Spatial(data.dir = data_dir, filename = file_name)
+```
+
+The dataset has `r nrow(rna_data)` features (genes) and `r ncol(rna_data)` spots. 
+
+# Data Pre-processing
+The selected view of the gene-by-spot matrix.
+```{r}
+rna_data@assays$Spatial@counts[5:9,1:5]
+```
+We will calculate mitochondrial quality control metrics.  If cells exhibit mitochondrial counts exceeding either 5% or 10%, it could indicate potential cell damage, and we will filter these cells out.
+```{r}
+rna_data[["percent.mt"]] <- PercentageFeatureSet(rna_data, pattern = "^mt-")
+```
+
+Typically, tables are not considered the most effective method for visualizing gene data. However, due to assignment requirements, we will create tables to represent the gene data.
+
+The summary of spots information is usually stored in 'meta.data'.
+```{r}
+head(rna_data@meta.data)
+```
+## Summary of spot information
+### Table
+```{r}
+library(gtsummary)
+
+data <- rna_data@meta.data
+
+data['percent10'] <- ifelse(data['percent.mt']>10, 1,0)
+
+table_one <-  data %>% 
+  select("nCount_Spatial", "nFeature_Spatial", "percent.mt", "percent10")  %>% 
+  tbl_summary(
+    type = list(percent10 ~ "dichotomous", all_continuous() ~ "continuous2"),
+    statistic = all_continuous() ~ c(
+      "{N_nonmiss}",
+      "{median} ({p25}, {p75})",
+      "{min}, {max}"),
+    label = list(nCount_Spatial = "nCount in each spot", 
+                 nFeature_Spatial = "nGene in each spot",
+                 percent.mt = 'Percent of mitochondrial (MT) genes',
+                 percent10 = 'MT genes > 10%'
+                 )) %>% 
+  modify_header(label = "**Variable**") %>% 
+  modify_caption("**Table 1. Spot Information Summary for Quality Control**")
+```
+
+```{r}
+table_one
+```
+Table 1 shows the number of gene counts in each spot, the number of expressed genes, and the percentage of mitochondrial (MT) genes within each spot. The data indicates that 76% of spots exhibit mitochondrial gene counts exceeding 10%, suggesting that spatial RNA sequencing reveals a higher incidence of cell damage compared to conventional RNA sequencing.
+
+### Plot
+```{r}
+library(ggplot2)
+
+scatterplot <- 
+  ggplot(data, aes(x = nCount_Spatial, y = nFeature_Spatial)) +
+    geom_point() +
+    geom_smooth(method = lm) +
+    theme_bw() +
+    xlab('nCount in each spot') +
+    ylab('nGene in each spot') +
+    ggtitle('Figure 1. The relationship between nCount and nGene in each spot') +
+    labs(caption = "The blue line displays the pattern between nCount and nGene in each spot")
+
+scatterplot
+```
+
+Figure 1 depicts the relationship between nCount and nGene for each spot. It intuitively illustrates that spots typically exhibit higher RNA counts alongside a greater diversity of gene types.
+
+
+### More plots
+There is an abundance of functions in packages available for visualizing gene datasets.
+```{r}
+plot1 <- FeatureScatter(rna_data, feature1 = "nCount_Spatial", feature2 = "nFeature_Spatial")
+
+plot1
+```
+
+To visualize the number of counts in each spot, plots are superior for depicting the distribution compared to tables.
+```{r}
+plot2 <- VlnPlot(rna_data, features = "nCount_Spatial", pt.size = 0.1) + NoLegend()
+plot3 <- SpatialFeaturePlot(rna_data, features = "nCount_Spatial") + theme(legend.position = "right")
+wrap_plots(plot2, plot3)
+```
+```{r}
+SpatialFeaturePlot(rna_data, features = c("Rpl7", "Gls"))
+```
+
+
+# Data visualization
+
+## Dimensionality reduction, clustering, and visualization
+

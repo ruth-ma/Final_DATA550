@@ -1,0 +1,82 @@
+---
+title: "The Exploration of Spatial Transcriptomics"
+author: "Ruth Ma"
+date:  "`r format(Sys.Date(), '%Y-%m-%d')`"
+output:
+  html_document:
+    highlight: haddock
+    toc: true
+---
+```{r, set-chunk-opts, echo = FALSE}
+library(knitr)
+opts_chunk$set(
+  echo = FALSE, warning = FALSE, message = FALSE
+)
+```
+
+```{r,include=FALSE}
+Sys.setenv(LANG = "en_US")
+```
+
+```{r}
+here::i_am("report.Rmd")
+```
+
+```{r}
+data <- readRDS(
+  file = here::here("derived_data/rna_data.rds")
+)
+```
+
+The dataset has `r nrow(rna_data)` features (genes) and `r ncol(rna_data)` spots. 
+
+The selected view of the gene-by-spot matrix.
+```{r}
+rna_data@assays$Spatial@counts[5:9,1:5]
+```
+
+The summary of spots information is usually stored in 'meta.data'.
+```{r}
+head(rna_data@meta.data)
+```
+## Summary of spot information
+### Table
+
+```{r, table1}
+table_one <- readRDS(
+  file = here::here("output/tables/table_one.rds")
+)
+table_one
+```
+Table 1 shows the number of gene counts in each spot, the number of expressed genes, and the percentage of mitochondrial (MT) genes within each spot. The data indicates that 76% of spots exhibit mitochondrial gene counts exceeding 10%, suggesting that spatial RNA sequencing reveals a higher incidence of cell damage compared to conventional RNA sequencing.
+
+### Scatter Plot
+```{r, plot-data}
+#| fig.align = "center",
+#| out.width = "600px"
+knitr::include_graphics(
+  here::here("output/figures/scatterplot.png")
+)
+```
+Figure 1 depicts the relationship between nCount and nGene for each spot. It intuitively illustrates that spots typically exhibit higher RNA counts alongside a greater diversity of gene types.
+
+
+### Count Plot
+The number of counts in each spot
+```{r}
+#| fig.align = "center",
+#| out.width = "600px"
+knitr::include_graphics(
+  here::here("output/figures/countplot.png")
+)
+```
+
+### Feature Plot
+The spatial information of different genes.
+```{r}
+#| fig.align = "center",
+#| out.width = "600px"
+knitr::include_graphics(
+  here::here("output/figures/featureplot.png")
+)
+```

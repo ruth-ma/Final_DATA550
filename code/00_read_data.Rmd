@@ -1,0 +1,77 @@
+---
+title: "00_read_data"
+author: "Ruth Ma"
+date: "`r format(Sys.Date(), '%Y-%m-%d')`"
+output: html_document
+---
+
+```{r, install-packages}
+# Install packages for gene analysis
+if (!requireNamespace("Seurat", quietly = TRUE)) {
+  install.packages("Seurat")
+}
+if (!requireNamespace("SeuratData", quietly = TRUE)) {
+  install.packages("SeuratData")
+}
+if (!requireNamespace("ggplot2", quietly = TRUE)) {
+  install.packages("ggplot2")
+}
+if (!requireNamespace("patchwork", quietly = TRUE)) {
+  install.packages("patchwork")
+}
+if (!requireNamespace("dplyr", quietly = TRUE)) {
+  install.packages("dplyr")
+}
+# Install 'here' package
+if (!requireNamespace("here", quietly = TRUE)) {
+  install.packages("here")
+}
+```
+
+```{r, import-package}
+# Import packages for gene analysis
+library(Seurat)
+library(SeuratData)
+library(ggplot2)
+library(patchwork)
+library(dplyr)
+# Import 'here' package
+library(here)
+```
+
+Get the current working directory
+```{r}
+here::i_am("code/00_read_data.Rmd")
+```
+
+# Read in the dataset
+## Method 1: Read in the dataset online
+```{r, install-data}
+if (!('stxBrain.SeuratData' %in% rownames(AvailableData()))) {
+  InstallData("stxBrain")
+}
+```
+
+```{r, read-data-from-web}
+rna_data <- LoadData("stxBrain", type = "posterior2")
+```
+
+## Method 2: Read in local dataset
+```{r, read-data-from-local, eval=FALSE}
+data_dir <- here::here('data')
+file_name = 'V1_Mouse_Brain_Sagittal_Posterior_Section_2_filtered_feature_bc_matrix.h5'
+rna_data <- Load10X_Spatial(data.dir = data_dir, filename = file_name)
+```
+
+We will calculate mitochondrial quality control metrics.  If cells exhibit mitochondrial counts exceeding either 5% or 10%, it could indicate potential cell damage, and we will filter these cells out.
+```{r}
+rna_data[["percent.mt"]] <- PercentageFeatureSet(rna_data, pattern = "^mt-")
+```
+
+We onvert the h5 data type to rds format to make it more accessible for those who may not be familiar with h5.
+```{r}
+saveRDS(
+  rna_data, 
+  file = here::here("derived_data/rna_data.rds")
+)
+```
