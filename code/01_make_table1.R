@@ -4,7 +4,7 @@ here::i_am(
   "code/01_make_table1.R"
 )
 
-data <- readRDS(
+rna_data <- readRDS(
   file = here::here("derived_data/rna_data.rds")
 )
 

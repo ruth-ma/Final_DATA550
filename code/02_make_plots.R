@@ -1,6 +1,6 @@
 here::i_am("code/02_make_plots.R")
 
-data <- readRDS(
+rna_data <- readRDS(
   file = here::here("derived_data/rna_data.rds")
 )
 
@@ -24,6 +24,9 @@ ggsave(
   plot = scatterplot,
   device = "png"
 )
+
+library(Seurat)
+library(patchwork)
 
 # countplot
 plotV <- VlnPlot(rna_data, features = "nCount_Spatial", pt.size = 0.1) + NoLegend()
