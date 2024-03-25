@@ -51,6 +51,7 @@ here::i_am("code/00_read_data.Rmd")
 # Read in the dataset
 ## Method 1: Read in the dataset online
 ```{r, install-data}
+options(timeout = 600)
 if (!(AvailableData()['stxBrain','Installed']==TRUE)) {
   InstallData("stxBrain")
 }

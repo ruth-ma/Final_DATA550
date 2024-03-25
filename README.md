@@ -10,7 +10,7 @@ Tables and plots will be generated in the 'output' folder, while the final repor
 Traditionally, tables are not the preferred method for visualizing gene data. Nonetheless, in adherence to assignment requirements, we will include tables to represent the gene data.
 
 # About the dataset
-You could skip this part if not interested in the science backgroud)
+Feel free to skip this section if the scientific background doesn't interest you.
 
 This is a spatial transcriptomics dataset.  
 The dataset comprises spatial transcriptomics information within a mouse brain and is stored as a Seurat object. It includes counts information, representing RNA counts or gene expression in each spot, as well as coordinate information, indicating the physical coordinates of each spot.
