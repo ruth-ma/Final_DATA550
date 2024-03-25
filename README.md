@@ -1,3 +1,14 @@
+# How to run the program
+If this is your first time working with RNA data, the initial setup may take a few minutes as you install necessary packages.
+
+Please set the working directory to your local folder containing the program "~/Final_DATA550-master", use the following command: `setwd("~/Final_DATA550-master")`.
+
+All code files are located in the 'code' folder. Using __'make'__ simplifies the process of running all codes and generating the report file. However, if you're unfamiliar with 'make', you can __run the files individually starting with '00_read_data.Rmd', followed by '01_make_table1.R', '02_make_plots.R', and finally '03_render_report.R'__.
+
+Tables and plots will be generated in the 'output' folder, while the final report will be found in the main folder.
+
+Traditionally, tables are not the preferred method for visualizing gene data. Nonetheless, in adherence to assignment requirements, we will include tables to represent the gene data.
+
 # About the dataset
 You could skip this part if not interested in the science backgroud)
 
@@ -12,16 +23,6 @@ Please be patient while working with the dataset; the data is high-dimensional a
 You have several ways to read in the dataset.  
 1. Using the 10X function to read in the dataset (recommend).  
 2. Download the dataset from [https://www.10xgenomics.com/datasets/mouse-brain-serial-section-2-sagittal-posterior-1-standard-1-0-0](10X website) and read in the local dataset. At least "Feature/barcode matrix HDF5 (filtered)" and "Spatial imaging data" should be downloaded.
-
-# How to run the program
-If this is your first time working with RNA data, the initial setup may take a few minutes as you install necessary packages.
-
-All code files are located in the 'code' folder. Using 'make' simplifies the process of running all codes and generating the report file. However, if you're unfamiliar with 'make', you can run the files individually starting with '00_read_data.Rmd', followed by '01_make_table1.R', '02_make_plots.R', and finally '03_render_report.R'.
-
-Tables and plots will be generated in the 'output' folder, while the final report will be found in the main folder.
-
-Traditionally, tables are not the preferred method for visualizing gene data. Nonetheless, in adherence to assignment requirements, we will include tables to represent the gene data.
-
 
 # Code Description
 

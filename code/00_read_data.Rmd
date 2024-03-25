@@ -11,7 +11,8 @@ if (!requireNamespace("Seurat", quietly = TRUE)) {
   install.packages("Seurat")
 }
 if (!requireNamespace("SeuratData", quietly = TRUE)) {
-  install.packages("SeuratData")
+  install.packages("remotes")
+  remotes::install_github('satijalab/seurat-data')
 }
 if (!requireNamespace("ggplot2", quietly = TRUE)) {
   install.packages("ggplot2")
@@ -25,6 +26,9 @@ if (!requireNamespace("dplyr", quietly = TRUE)) {
 # Install 'here' package
 if (!requireNamespace("here", quietly = TRUE)) {
   install.packages("here")
+}
+if (!requireNamespace("gtsummary", quietly = TRUE)) {
+  install.packages("gtsummary")
 }
 ```
 
@@ -47,7 +51,7 @@ here::i_am("code/00_read_data.Rmd")
 # Read in the dataset
 ## Method 1: Read in the dataset online
 ```{r, install-data}
-if (!('stxBrain.SeuratData' %in% rownames(AvailableData()))) {
+if (!(AvailableData()['stxBrain','Installed']==TRUE)) {
   InstallData("stxBrain")
 }
 ```
@@ -68,7 +72,7 @@ We will calculate mitochondrial quality control metrics.  If cells exhibit mitoc
 rna_data[["percent.mt"]] <- PercentageFeatureSet(rna_data, pattern = "^mt-")
 ```
 
-We onvert the h5 data type to rds format to make it more accessible for those who may not be familiar with h5.
+We convert the h5 data type to rds format to make it more accessible for those who may not be familiar with h5.
 ```{r}
 saveRDS(
   rna_data, 
