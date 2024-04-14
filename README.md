@@ -1,9 +1,15 @@
 # How to run the program
 If this is your first time working with RNA data, the initial setup may take a few minutes as you install necessary packages.
 
-Please set the working directory to your local folder containing the program "~/Final_DATA550-master", use the following command: `setwd("~/Final_DATA550-master")`.
+- Please set the working directory to your local folder containing the program "~/Final_DATA550-master" in R console, use the following command: `setwd("~/Final_DATA550-master")`.
 
-All code files are located in the 'code' folder. Using __'make'__ simplifies the process of running all codes and generating the report file. However, if you're unfamiliar with 'make', you can __run the files individually starting with '00_read_data.Rmd', followed by '01_make_table1.R', '02_make_plots.R', and finally '03_render_report.R'__.
+- Please set the working directory to your local folder containing the program "~/Final_DATA550-master", in the bash terminal, use the `cd` command.
+
+- Please use the `make install` in the terminal to synchronize your package repository. Do not suggest use `renv::restore()` in R console, because it might have some issues.
+
+- Use `make` in the terminal to simplify the process of running all codes and generating the report file.
+
+All code files are located in the 'code' folder. If you're unfamiliar with 'make', you can __run the files individually starting with '00_read_data.Rmd', followed by '01_make_table1.R', '02_make_plots.R', and finally '03_render_report.R'__.
 
 Tables and plots will be generated in the 'output' folder, while the final report will be found in the main folder.
 
