@@ -15,6 +15,12 @@ Tables and plots will be generated in the 'output' folder, while the final repor
 
 Traditionally, tables are not the preferred method for visualizing gene data. Nonetheless, in adherence to assignment requirements, we will include tables to represent the gene data.
 
+# Using Docker
+To utilize Docker for generating the report, you can input the following command in the terminal:
+`docker run -v /"$(pwd)"/final_report:/project/final_report project_image`
+or:
+using make, `make final_report/report.html`
+
 # About the dataset
 Feel free to skip this section if the scientific background doesn't interest you.
 

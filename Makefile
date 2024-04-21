@@ -1,3 +1,4 @@
+# Report-associated rules (run on Docker container)
 report: report.html
 
 report.html: report.Rmd code/03_render_report.R derived_data/rna_data.rds output/tables/table_one.rds output/figures/scatterplot.png output/figures/countplot.png output/figures/featureplot.png
@@ -19,3 +20,18 @@ clean:
 .PHONY: install
 install:
 	Rscript -e "renv::restore(prompt=FALSE)"
+	
+# Docker-associated rules (run on our local machine)
+PROJECTFILES = report.Rmd code/01_make_table1.R code/02_make_plots.R Makefile
+REVFILES = renv.lock renv/activate.R renv/settings.json
+
+# Rule to build image
+project_image: Dockerfile $(PROJECTFILES) $(RENVFILES)
+	docker build -t project_image
+	touch $@
+	
+# Rule to build the report automatically
+final_report/report.html: project_image
+	docker run -v /"$$(pwd)/final_report":/project/final_report project_image
+	
+	
