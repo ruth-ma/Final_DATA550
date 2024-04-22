@@ -12,18 +12,18 @@ Or
 
 # How to create the report using Docker
 
-- To utilize Docker for generating the report, run the following command in the terminal:
-For Windows-OS users:
-`docker run -v /"$(pwd)/report":/project/final_report project_image`
-For Mac/Linux-OS users:
+- To utilize Docker for generating the report, run the following command in the terminal:\
+For Windows-OS users:\
+`docker run -v /"$(pwd)/report":/project/final_report project_image`\
+For Mac/Linux-OS users:\
 `docker run -v "$(pwd)/report":/project/final_report project_image`
 
 Or
 
-- Use `make` in the terminal to simplify the process of running all codes and generating the report file. 
-For Windows-OS users:
-`make windows_report`
-For Mac/Linux-OS users:
+- Use `make` in the terminal to simplify the process of running all codes and generating the report file.\
+For Windows-OS users:\
+`make windows_report`\
+For Mac/Linux-OS users:\
 `make MacLinux_report`
 
 It takes more than 10 minutes to download and install the dataset. Be patient!
