@@ -5,8 +5,11 @@ RUN apt-get update && apt-get install -y pandoc
 RUN mkdir /project
 WORKDIR /project
 
-RUN mkdir code
-RUN mkdir output
+RUN mkdir -p code
+RUN mkdir -p output
+RUN mkdir -p derived_data
+RUN mkdir -p output/tables
+RUN mkdir -p output/figures
 COPY code code
 COPY Makefile .
 COPY report.Rmd .
@@ -23,6 +26,6 @@ RUN apt-get install -y libglpk-dev
 
 RUN Rscript -e "renv::restore(prompt=FALSE)"
 
-RUN mkdir final_report
+RUN mkdir report
 
-CMD make && mv report.html final_report
+CMD make && cp report.html report

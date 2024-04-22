@@ -1,9 +1,25 @@
-# How to run the program
-If this is your first time working with RNA data, the initial setup may take a few minutes as you install necessary packages.
-
 - Please set the working directory to your local folder containing the program "~/Final_DATA550-master" in R console, use the following command: `setwd("~/Final_DATA550-master")`.
 
 - Please set the working directory to your local folder containing the program "~/Final_DATA550-master", in the bash terminal, use the `cd` command.
+
+# How to run the program using Docker
+
+It takes more than 10 minutes to download and install the dataset. Be patient!
+
+To utilize Docker for generating the report, you can input the following command in the terminal:
+For Windows-OS users:
+`docker run -v /"$(pwd)/report":/project/final_report project_image`
+For Mac/Linux-OS users:
+`docker run -v "$(pwd)/report":/project/final_report project_image`
+
+- Use `make` in the terminal to simplify the process of running all codes and generating the report file. 
+For Windows-OS users:
+`make windows_report`
+For Mac/Linux-OS users:
+`make MacLinux_report`
+
+# How to run the program not using Docker
+If this is your first time working with RNA data, the initial setup may take a few minutes as you install necessary packages.
 
 - Please use the `make install` in the terminal to synchronize your package repository. Do not suggest use `renv::restore()` in R console, because it might have some issues.
 
@@ -14,12 +30,6 @@ All code files are located in the 'code' folder. If you're unfamiliar with 'make
 Tables and plots will be generated in the 'output' folder, while the final report will be found in the main folder.
 
 Traditionally, tables are not the preferred method for visualizing gene data. Nonetheless, in adherence to assignment requirements, we will include tables to represent the gene data.
-
-# Using Docker
-To utilize Docker for generating the report, you can input the following command in the terminal:
-`docker run -v /"$(pwd)"/final_report:/project/final_report project_image`
-or:
-using make, `make final_report/report.html`
 
 # About the dataset
 Feel free to skip this section if the scientific background doesn't interest you.
