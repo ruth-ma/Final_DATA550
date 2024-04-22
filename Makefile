@@ -36,5 +36,3 @@ windows_report:
 	
 MacLinux_report:
 	docker run -v "$$(pwd)/report":/project/report project_image
-
-	

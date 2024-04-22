@@ -2,21 +2,33 @@
 
 - Please set the working directory to your local folder containing the program "~/Final_DATA550-master", in the bash terminal, use the `cd` command.
 
-# How to run the program using Docker
+# How to build a Docker image or download from Dockerhub
 
-It takes more than 10 minutes to download and install the dataset. Be patient!
+- Download from Dockerhub: in terminal, run `docker pull ru3ma/project_image`. You could also find the Docker image at: https://hub.docker.com/repository/docker/ru3ma/project_image/general
 
-To utilize Docker for generating the report, you can input the following command in the terminal:
+Or
+
+- Build by yourself: in terminal, run `docker build -t <name_you_like> .`
+
+# How to create the report using Docker
+
+- To utilize Docker for generating the report, run the following command in the terminal:
 For Windows-OS users:
 `docker run -v /"$(pwd)/report":/project/final_report project_image`
 For Mac/Linux-OS users:
 `docker run -v "$(pwd)/report":/project/final_report project_image`
+
+Or
 
 - Use `make` in the terminal to simplify the process of running all codes and generating the report file. 
 For Windows-OS users:
 `make windows_report`
 For Mac/Linux-OS users:
 `make MacLinux_report`
+
+It takes more than 10 minutes to download and install the dataset. Be patient!
+
+You will find `report.html` file in the local `report` folder.
 
 # How to run the program not using Docker
 If this is your first time working with RNA data, the initial setup may take a few minutes as you install necessary packages.
