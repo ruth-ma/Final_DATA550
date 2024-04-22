@@ -17,6 +17,10 @@ RUN mkdir renv
 COPY renv/activate.R renv
 COPY renv/settings.json renv
 
+RUN DEBIAN_FRONTEND=noninteractive 
+RUN apt-get update 
+RUN apt-get install -y libglpk-dev
+
 RUN Rscript -e "renv::restore(prompt=FALSE)"
 
 RUN mkdir final_report
