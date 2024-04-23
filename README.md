@@ -1,14 +1,20 @@
-- Please set the working directory to your local folder containing the program "~/Final_DATA550-master" in R console, use the following command: `setwd("~/Final_DATA550-master")`.
+# Clone the github repository
 
-- Please set the working directory to your local folder containing the program "~/Final_DATA550-master", in the bash terminal, use the `cd` command.
+Change the current working directory to the location where you want the cloned directory.
 
-# How to build a Docker image or download from Dockerhub
+- In terminal, run `git clone https://github.com/ruth-ma/Final_DATA550`.
 
-- Download from Dockerhub: in terminal, run `docker pull ru3ma/project_image`. You could also find the Docker image at: https://hub.docker.com/repository/docker/ru3ma/project_image/general
+- Please make sure the working directory is "~/Final_DATA550-master" in R console, use the following command: `setwd("~/Final_DATA550-master")`.
+
+- Please make sure the working directory is "~/Final_DATA550-master" in the bash terminal, use the `cd` command.
+
+# Build a local Docker image or download from Dockerhub
+
+- Download from Dockerhub: in terminal, run `docker pull ru3ma/project_image`, and change the name of image by running `docker tag ru3ma/project_image project_image`. You could also find the Docker image at: https://hub.docker.com/repository/docker/ru3ma/project_image/general
 
 Or
 
-- Build by yourself: in terminal, run `docker build -t <name_you_like> .`
+- Build by yourself: in terminal, run `docker build -t project_image .`
 
 # How to create the report using Docker
 
