@@ -10,19 +10,19 @@ Change the current working directory to the location where you want the cloned d
 
 # Build a local Docker image or download from Dockerhub
 
-- Download from Dockerhub: in terminal, run `docker pull ru3ma/project_image`, and change the name of image by running `docker tag ru3ma/project_image project_image`. You could also find the Docker image at: https://hub.docker.com/repository/docker/ru3ma/project_image/general
+- Download from Dockerhub: in terminal, run `docker pull ru3ma/project_image`. You could also find the Docker image at: https://hub.docker.com/repository/docker/ru3ma/project_image/general
 
 Or
 
-- Build by yourself: in terminal, run `docker build -t project_image .`
+- Build by yourself: in terminal, run `docker build -t ru3ma/project_image.` or using `make project_image`.
 
 # How to create the report using Docker
 
 - To utilize Docker for generating the report, run the following command in the terminal:\
 For Windows-OS users:\
-`docker run -v /"$(pwd)/report":/project/final_report project_image`\
+`docker run -v /"$(pwd)/report":/project/report ru3ma/project_image`\
 For Mac/Linux-OS users:\
-`docker run -v "$(pwd)/report":/project/final_report project_image`
+`docker run -v "$(pwd)/report":/project/report ru3ma/project_image`
 
 Or
 
