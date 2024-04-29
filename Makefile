@@ -27,11 +27,11 @@ REVFILES = renv.lock renv/activate.R renv/settings.json
 
 # Rule to build image
 project_image: Dockerfile $(PROJECTFILES) $(RENVFILES)
-docker build -t ru3ma/project_image .
-touch $@
+	docker build -t ru3ma/project_image .
+	touch $@
 	
 # Rule to build the report automatically
-windows_report:
+Windows_report:
 	docker run -v /"$$(pwd)/report":/project/report ru3ma/project_image
 	
 MacLinux_report:

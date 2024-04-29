@@ -28,7 +28,7 @@ Or
 
 - Use `make` in the terminal to simplify the process of running all codes and generating the report file.\
 For Windows-OS users:\
-`make windows_report`\
+`make Windows_report`\
 For Mac/Linux-OS users:\
 `make MacLinux_report`
 
