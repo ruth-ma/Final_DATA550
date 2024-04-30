@@ -26,7 +26,7 @@ PROJECTFILES = report.Rmd code/01_make_table1.R code/02_make_plots.R Makefile
 REVFILES = renv.lock renv/activate.R renv/settings.json
 
 # Rule to build image
-project_image: Dockerfile $(PROJECTFILES) $(RENVFILES)
+project_image: Dockerfile	$(PROJECTFILES)	$(RENVFILES)
 	docker build -t ru3ma/project_image .
 	touch $@
 	
